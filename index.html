@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>VENTAS</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px;">
+    <h1 style="text-align: center; color: #343a40; margin-bottom: 30px;">Sistema de Ventas</h1>
+    <div style="display: flex; justify-content: space-around; margin: 20px;">
+        
+        <!-- Formulario de Datos del Cliente -->
+        <div style="width: 45%; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; color: #007bff;">Datos del Cliente</h2>
+            <form action="Controlador?menu=NuevaVenta" method="POST">
+                <label><strong>Código:</strong></label><br>
+                <input type="text" name="codigocliente" value="${c.getDni()}" placeholder="Código" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <button type="submit" name="accion" value="BuscarCliente" style="background-color: #17a2b8; color: white; border: none; padding: 10px; border-radius: 5px;">Buscar</button>
+                <br><br>
+                
+                <label><strong>Nombre del Cliente:</strong></label><br>
+                <input type="text" name="nombrescliente" value="${c.getNom()}" placeholder="Datos Cliente" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <br><br>
+
+                <h3 style="color: #007bff;">Datos del Producto</h3>
+                <label><strong>Código del Producto:</strong></label><br>
+                <input type="text" name="codigoproducto" value="${producto.getId()}" placeholder="Código" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <button type="submit" name="accion" value="BuscarProducto" style="background-color: #17a2b8; color: white; border: none; padding: 10px; border-radius: 5px;">Buscar</button>
+                <br><br>
+
+                <label><strong>Nombre del Producto:</strong></label><br>
+                <input type="text" name="nomproducto" value="${producto.getNom()}" placeholder="Datos Producto" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <br><br>
+
+                <label><strong>Precio:</strong></label><br>
+                <input type="text" name="precio" value="${producto.getPrecio()}" placeholder="s/.0.00" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <br><br>
+
+                <label><strong>Cantidad:</strong></label><br>
+                <input type="number" name="cant" value="1" required min="1" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <br><br>
+
+                <label><strong>Stock:</strong></label><br>
+                <input type="text" name="stock" value="${producto.getStock()}" placeholder="Stock" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <br><br>
+
+                <button type="submit" name="accion" value="Agregar" style="background-color: #007bff; color: white; border: none; padding: 10px; border-radius: 5px; width: 100%;">Agregar Producto</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Productos -->
+        <div style="width: 50%; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; color: #007bff;">Lista de Productos</h2>
+            <label><strong>Número de Serie:</strong></label>
+            <input type="text" name="NrSerie" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+            <br>
+            <table border="1" width="100%" style="border-collapse: collapse; text-align: center; margin-top: 10px;">
+                <thead>
+                    <tr style="background-color: #007bff; color: white;">
+                        <th>Nr</th>
+                        <th>Código</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="list" items="${lista}">
+                        <tr>
+                            <td>${list.getItem()}</td>
+                            <td>${list.getIdproducto()}</td>
+                            <td>${list.getDescripcion()}</td>
+                            <td>${list.getPrecio()}</td>
+                            <td>${list.getCantidad()}</td>
+                            <td>${list.getSubtotal()}</td>
+                            <td>
+                                <a href="Controlador?menu=NuevaVenta&accion=Editar&item=${list.getItem()}" style="color: orange; text-decoration: none;">Editar</a>
+                                <a href="Controlador?menu=NuevaVenta&accion=Eliminar&item=${list.getItem()}" style="color: red; margin-left: 10px; text-decoration: none;">Eliminar</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <br>
+            <form action="Controlador?menu=NuevaVenta" method="POST">
+                <button type="submit" name="accion" value="Generar Venta" style="background-color: #28a745; color: white; border: none; padding: 10px; border-radius: 5px; width: 48%; margin-right: 2%;">Generar Venta</button>
+                <button type="submit" name="accion" value="Cancelar" style="background-color: #dc3545; color: white; border: none; padding: 10px; border-radius: 5px; width: 48%;">Cancelar</button>
+                <br><br>
+                <label><strong>Total:</strong></label>
+                <input type="text" name="txtTotal" value="${totalPagar}" readonly style="width: 100%; padding: 10px;">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
